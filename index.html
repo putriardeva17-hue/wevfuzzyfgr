@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuzzy Figure</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream:#f9f5ef;
+  --beige:#e8ddcf;
+  --sage:#a3b18a;
+  --dark:#5f6f52;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial;
+  background:var(--cream)
+}
+
+.card-content h3{
+  font-family:'Poppins', sans-serif;
+  font-size:18px;
+  font-weight:600;
+  color:#6b4f3f;
+  margin:5px 0;
+}
+
+
+/* HEADER */
+header{
+  background:var(--beige);
+  padding:15px;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:99
+}
+header h1{
+  font-family:'Playfair Display', serif;
+  color:#8b5e3c;
+}
+nav a{
+  margin:0 10px;
+  cursor:pointer;
+  font-weight:bold;
+  color:#444;
+  text-decoration:none
+}
+
+/* CATALOG */
+.catalog{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding:20px
+}
+.card{
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 6px 16px rgba(0,0,0,.1);
+  overflow:hidden
+}
+.price{
+  font-family:'Comic Neue', sans-serif;
+  font-size:16px;
+}
+
+
+/* SLIDER */
+.slider{
+  position:relative;
+  height:260px;
+  background:var(--cream)
+}
+.slide{display:none;height:100%}
+.slide.active{display:block}
+.slide img,.slide video{
+  width:100%;
+  height:100%;
+  object-fit:contain
+}
+.slider button{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:#fff;
+  border:none;
+  font-size:20px;
+  cursor:pointer;
+  padding:4px 10px
+}
+.prev{left:10px}
+.next{right:10px}
+
+/* CARD */
+.card-content{padding:12px}
+.price{color:var(--sage);font-weight:bold}
+.card-actions{
+  display:flex;
+  gap:10px;
+  padding:12px
+}
+.desc{
+  font-family:'Pacifico', sans-serif;
+  font-size:10px;
+  color:#8b7e74;
+  line-height:1.4;
+  margin:6px 0 8px;
+}
+
+.card-actions button{
+  flex:1;
+  border:none;
+  border-radius:12px;
+  padding:10px;
+  color:#fff;
+  cursor:pointer
+}
+.cart-btn{background:var(--sage)}
+.order-btn{background:var(--dark)}
+
+/* CART POPUP */
+#cart{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  z-index:999
+}
+.cart-box{
+  background:#fff;
+  max-width:500px;
+  margin:60px auto;
+  padding:20px;
+  border-radius:18px;
+  position:relative
+}
+.close-btn{
+  position:absolute;
+  top:10px;
+  right:15px;
+  background:none;
+  border:none;
+  font-size:22px;
+  cursor:pointer
+}
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:8px 0
+}
+
+/* QTY */
+.qty-control{
+  display:flex;
+  align-items:center;
+  gap:8px
+}
+.qty-control button{
+  width:28px;
+  height:28px;
+  border:none;
+  border-radius:6px;
+  background:var(--sage);
+  color:#fff;
+  font-size:18px;
+  cursor:pointer
+}
+
+/* FORM */
+input,textarea,select{
+  width:100%;
+  margin:8px 0;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc
+}
+form button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:var(--dark);
+  color:#fff;
+  cursor:pointer
+}
+
+footer{
+  text-align:center;
+  padding:15px;
+  color:#777
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>~ Fuzzy Figure ~</h1>
+  <nav>
+    <a onclick="scrollToCatalog()">Catalog</a>
+    <a onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</a>
+  </nav>
+</header>
+
+<section class="catalog" id="catalog">
+
+<!-- PRODUCT 1 -->
+<div class="card">
+  <div class="slider">
+    <div class="slide active"><img src="duckiee.jpeg"></div>
+    <div class="slide"><img src="duck2.jpeg"></div>
+    <div class="slide">
+      <video autoplay muted loop playsinline>
+        <source src="vduckie.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide">
+      <video autoplay muted loop playsinline>
+        <source src="vduckie2.mp4" type="video/mp4">
+      </video>
+    </div>
+    <button class="prev" onclick="prevSlide(this)">‹</button>
+    <button class="next" onclick="nextSlide(this)">›</button>
+  </div>
+  <div class="card-content">
+  <h3>Fuzzy Duck Figure</h3>
+  <p class="desc">
+    Handmade fuzzy figure karakter bebek berbahan kawat bulu, lembut, estetik,
+    cocok untuk kado & dekor meja.
+  </p>
+  <p class="price">Rp 50.000</p>
+</div>
+
+  <div class="card-actions">
+    <button class="cart-btn" onclick="addToCart('Fuzzy Duck Figure',50000)">Tambah</button>
+    <button class="order-btn" onclick="orderNow('Fuzzy Duck Figure',50000)">Pesan</button>
+  </div>
+</div>
+
+<!-- PRODUCT 2 -->
+<div class="card">
+  <div class="slider">
+    <div class="slide active"><img src="karakterpinkeu.jpeg"></div>
+    <div class="slide"><img src="kkirbyy.jpeg"></div>
+    <div class="slide">
+      <video autoplay muted loop playsinline>
+        <source src="vkirby.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide">
+      <video autoplay muted loop playsinline>
+        <source src="vkirby2.mp4" type="video/mp4">
+      </video>
+    </div>
+    <button class="prev" onclick="prevSlide(this)">‹</button>
+    <button class="next" onclick="nextSlide(this)">›</button>
+  </div>
+  <div class="card-content">
+  <h3>Fuzzy Duck Figure</h3>
+  <p class="desc">
+    Handmade fuzzy figure karakter bebek berbahan kawat bulu, lembut, estetik,
+    cocok untuk kado & dekor meja.
+  </p>
+  <p class="price">Rp 50.000</p>
+</div>
+  <div class="card-actions">
+    <button class="cart-btn" onclick="addToCart('Fuzzy Kirby Figure',50000)">Tambah</button>
+    <button class="order-btn" onclick="orderNow('Fuzzy Kirby Figure',50000)">Pesan</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="slider">
+    <div class="slide active"><img src="download (2).jpg"></div>
+  </div>
+  <div class="card-content">
+  <h3>Custom</h3>
+  <p class="desc">
+    Handmade fuzzy figure karakter berbahan kawat bulu, lembut, estetik,
+    cocok untuk kado & dekor meja.
+  </p>
+  <p class="price">Rp 50.000</p>
+</div>
+
+  <div class="card-actions">
+    <button class="cart-btn" onclick="addToCart('Fuzzy Duck Figure',50000)">Tambah</button>
+    <button class="order-btn" onclick="orderNow('Fuzzy Duck Figure',50000)">Pesan</button>
+  </div>
+</div>
+</section>
+
+<!-- CART -->
+<section id="cart">
+  <div class="cart-box">
+    <button class="close-btn" onclick="closeCart()">✕</button>
+
+    <h3>Keranjang</h3>
+    <div id="cartItems"></div>
+    <p><b>Total: Rp <span id="totalPrice">0</span></b></p>
+
+    <form onsubmit="checkout(event)">
+      <input id="name" placeholder="Nama" required>
+      <textarea id="address" placeholder="Alamat" required></textarea>
+      <input id="phone" placeholder="No HP" required>
+      <select id="payment">
+        <option>Transfer</option>
+        <option>QRIS</option>
+      </select>
+      <button>Checkout WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+<footer>© 2025 Fuzzy Figure</footer>
+
+<script>
+const cartEl = document.getElementById('cart');
+const cartItems = document.getElementById('cartItems');
+const cartCount = document.getElementById('cartCount');
+const totalPrice = document.getElementById('totalPrice');
+const catalog = document.getElementById('catalog');
+
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+updateCart();
+
+/* CART */
+function openCart(){ cartEl.style.display='block'; }
+function closeCart(){ cartEl.style.display='none'; }
+
+function addToCart(n,p){
+  let item = cart.find(i=>i.n===n);
+  if(item){ item.qty++; }
+  else{ cart.push({n,p,qty:1}); }
+  save();
+}
+
+function orderNow(n,p){
+  addToCart(n,p);
+  openCart();
+}
+
+function changeQty(i,c){
+  cart[i].qty+=c;
+  if(cart[i].qty<=0) cart.splice(i,1);
+  save();
+}
+
+function save(){
+  localStorage.setItem('cart',JSON.stringify(cart));
+  updateCart();
+}
+
+function updateCart(){
+  cartItems.innerHTML='';
+  let total=0;
+  cart.forEach((i,x)=>{
+    total+=i.p*i.qty;
+    cartItems.innerHTML+=`
+      <div class="cart-item">
+        <span>${i.n}</span>
+        <div class="qty-control">
+          <button onclick="changeQty(${x},-1)">−</button>
+          <span>${i.qty}</span>
+          <button onclick="changeQty(${x},1)">+</button>
+        </div>
+      </div>`;
+  });
+  totalPrice.innerText=total.toLocaleString();
+  cartCount.innerText=cart.reduce((a,b)=>a+b.qty,0);
+}
+
+/* CHECKOUT */
+function checkout(e){
+  e.preventDefault();
+
+  let name = document.getElementById('name').value;
+  let address = document.getElementById('address').value;
+  let phone = document.getElementById('phone').value;
+  let payment = document.getElementById('payment').value;
+
+  let msg = `Halo Fuzzy Figure%0A%0A`;
+  msg += `Nama: ${name}%0A`;
+  msg += `Alamat: ${address}%0A`;
+  msg += `No HP: ${phone}%0A`;
+  msg += `Pembayaran: ${payment}%0A%0A`;
+  msg += `Pesanan:%0A`;
+
+  let total = 0;
+  cart.forEach(i => {
+    msg += `- ${i.n} (${i.qty} pcs)%0A`;
+    total += i.p * i.qty;
+  });
+
+  msg += `%0ATotal: Rp ${total.toLocaleString()}`;
+
+  window.open(`https://wa.me/6281243018413?text=${msg}`);
+}
+
+
+/* SLIDER */
+function nextSlide(b){
+  let s=b.parentElement.querySelectorAll('.slide');
+  let i=[...s].findIndex(x=>x.classList.contains('active'));
+  s[i].classList.remove('active');
+  s[(i+1)%s.length].classList.add('active');
+}
+function prevSlide(b){
+  let s=b.parentElement.querySelectorAll('.slide');
+  let i=[...s].findIndex(x=>x.classList.contains('active'));
+  s[i].classList.remove('active');
+  s[(i-1+s.length)%s.length].classList.add('active');
+}
+
+function scrollToCatalog(){
+  catalog.scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
